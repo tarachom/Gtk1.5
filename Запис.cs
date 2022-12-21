@@ -10,6 +10,7 @@ namespace GtkTest
             Тип = ТипиКонтактноїІнформації.Адрес;
         }
 
+        public bool Актуальний { get; set; } = true;
         public Guid UID { get; set; }
         public ТипиКонтактноїІнформації Тип { get; set; }
         public string Значення { get; set; } = "";

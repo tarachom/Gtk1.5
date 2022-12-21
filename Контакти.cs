@@ -6,6 +6,8 @@ namespace GtkTest
     {
         enum Columns
         {
+            Image,
+            Actual,
             UID,
             Тип,
             Значення,
@@ -18,6 +20,8 @@ namespace GtkTest
         }
 
         ListStore Store = new ListStore(
+            typeof(Gdk.Pixbuf),
+            typeof(bool),   //Actual
             typeof(string), //UID
             typeof(string), //Тип
             typeof(string), //Значення
@@ -74,6 +78,8 @@ namespace GtkTest
             foreach (Запис record in records)
             {
                 Store.AppendValues(
+                    new Gdk.Pixbuf("doc.png"),
+                    record.Актуальний,
                     record.UID.ToString(),
                     record.Тип.ToString(),
                     record.Значення,
@@ -97,6 +103,8 @@ namespace GtkTest
                 {
                     Запис record = new Запис();
                     records.Add(record);
+
+                    record.Актуальний = (bool)Store.GetValue(iter, (int)Columns.Actual);
 
                     string uid = (string)Store.GetValue(iter, (int)Columns.UID);
 
@@ -123,6 +131,12 @@ namespace GtkTest
 
         void AddColumn()
         {
+            TreeViewGrid.AppendColumn(new TreeViewColumn("", new CellRendererPixbuf(), "pixbuf", (int)Columns.Image));
+
+            CellRendererToggle actualField = new CellRendererToggle();
+            actualField.Toggled += EditedActual;
+            TreeViewGrid.AppendColumn(new TreeViewColumn("Актуальний", actualField, "active", (int)Columns.Actual));
+
             TreeViewGrid.AppendColumn(new TreeViewColumn("UID", new CellRendererText(), "text", (int)Columns.UID) { Visible = false });
 
             ListStore storeTypeInfo = new ListStore(typeof(string), typeof(string));
@@ -186,6 +200,16 @@ namespace GtkTest
             TreeViewGrid.AppendColumn(new TreeViewColumn("Місто", Місто, "text", (int)Columns.Місто) { MinWidth = 150 });
         }
 
+        private void EditedActual(object sender, ToggledArgs args)
+        {
+            Gtk.TreeIter iter;
+            if (Store.GetIterFromString(out iter, args.Path))
+            {
+                bool val = (bool)Store.GetValue(iter, (int)Columns.Actual);
+                Store.SetValue(iter, (int)Columns.Actual, !val);
+            }
+        }
+
         void TextChanged(object sender, EditedArgs args)
         {
             CellRenderer cellRender = (CellRenderer)sender;
@@ -206,7 +230,7 @@ namespace GtkTest
 
         void OnAddClick(object? sender, EventArgs args)
         {
-            Store.AppendValues("", ТипиКонтактноїІнформації.Адрес.ToString());
+            Store.AppendValues(new Gdk.Pixbuf("doc.png"), true, "", ТипиКонтактноїІнформації.Адрес.ToString());
         }
 
         void OnDeleteClick(object? sender, EventArgs args)

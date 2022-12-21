@@ -50,7 +50,7 @@ namespace GtkTest
                 Запис record = new Запис();
                 records.Add(record);
 
-                record.Значення = i.ToString();
+                record.Значення = "Довільний текст " + i.ToString();
                 record.Телефон = "+380991234567";
                 record.Країна = "Україна";
                 record.Місто = "Львів";
@@ -75,6 +75,10 @@ namespace GtkTest
             {
                 XmlElement contactsNode = xmlDocument.CreateElement("Contacts");
                 rootNode.AppendChild(contactsNode);
+
+                XmlElement nodeАктуальний = xmlDocument.CreateElement("Актуальний");
+                nodeАктуальний.InnerText = record.Актуальний.ToString();
+                contactsNode.AppendChild(nodeАктуальний);
 
                 XmlElement nodeUID = xmlDocument.CreateElement("UID");
                 nodeUID.InnerText = record.UID.ToString();
