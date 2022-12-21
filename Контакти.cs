@@ -131,16 +131,19 @@ namespace GtkTest
 
         void AddColumn()
         {
+            //Image
             TreeViewGrid.AppendColumn(new TreeViewColumn("", new CellRendererPixbuf(), "pixbuf", (int)Columns.Image));
 
+            //Актуальний
             CellRendererToggle actualField = new CellRendererToggle();
             actualField.Toggled += EditedActual;
             TreeViewGrid.AppendColumn(new TreeViewColumn("Актуальний", actualField, "active", (int)Columns.Actual));
 
+            //UID
             TreeViewGrid.AppendColumn(new TreeViewColumn("UID", new CellRendererText(), "text", (int)Columns.UID) { Visible = false });
 
+            //Тип
             ListStore storeTypeInfo = new ListStore(typeof(string), typeof(string));
-
             foreach (ТипиКонтактноїІнформації field in Enum.GetValues<ТипиКонтактноїІнформації>())
                 storeTypeInfo.AppendValues(field.ToString(), field.ToString());
 

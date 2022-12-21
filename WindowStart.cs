@@ -7,7 +7,7 @@ namespace GtkTest
     {
         Контакти Контакти;
 
-        public WindowStart() : base("")
+        public WindowStart() : base("Контакти")
         {
             SetDefaultSize(1300, 600);
             SetPosition(WindowPosition.Center);
