@@ -9,7 +9,7 @@ namespace GtkTest
 
         public WindowStart() : base("")
         {
-            SetDefaultSize(1200, 600);
+            SetDefaultSize(1300, 600);
             SetPosition(WindowPosition.Center);
             BorderWidth = 5;
 
@@ -50,6 +50,7 @@ namespace GtkTest
                 Запис record = new Запис();
                 records.Add(record);
 
+                record.Актуальний = (i < 10 ? true : false);
                 record.Значення = "Довільний текст " + i.ToString();
                 record.Телефон = "+380991234567";
                 record.Країна = "Україна";
